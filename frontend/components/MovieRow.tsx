@@ -12,7 +12,13 @@ export async function MovieRow({ title, source, mediaType = 'movie' }: {
   mediaType?: 'movie' | 'tv';
 }) {
   const data = await api[source]();
-  const items: Movie[] = data.results.slice(0, 12);
+  const items: Movie[] = [...data.results]
+    .sort((a, b) => {
+      const da = a.release_date || a.first_air_date || '';
+      const db = b.release_date || b.first_air_date || '';
+      return db.localeCompare(da);
+    })
+    .slice(0, 12);
   return (
     <section className="row">
       <h3 className="row-title">{title}</h3>
