@@ -41,6 +41,7 @@ a { color: inherit; text-decoration: none; }
 
 .row { margin-bottom: 28px; }
 .row-title { font-size: 16px; font-weight: 600; margin-bottom: 12px; }
+.page-title { font-size: 28px; font-weight: 700; padding: 24px 32px 8px; }
 .row-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
