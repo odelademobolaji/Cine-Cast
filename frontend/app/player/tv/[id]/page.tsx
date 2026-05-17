@@ -1,43 +1,48 @@
-import { notFound } from "next/navigation";
-import { getTvDetail } from "@/lib/api";
+'use client';
+import { useParams, useSearchParams } from 'next/navigation';
+import { useState } from 'react';
 
-interface TvPlayerPageProps {
-  params: { id: string };
-  searchParams: { season?: string; episode?: string };
-}
+const SOURCES = [
+  { label: 'VidLink', url: (id: string, s: number, e: number) => `https://www.vidlink.pro/tv/${id}/${s}/${e}` },
+  { label: 'VidNest', url: (id: string, s: number, e: number) => `https://vidnest.fun/tv/${id}/${s}/${e}` },
+];
 
-export default async function TvPlayerPage({ params, searchParams }: TvPlayerPageProps) {
-  const tvId = parseInt(params.id, 10);
-  const season = parseInt(searchParams.season || "1", 10);
-  const episode = parseInt(searchParams.episode || "1", 10);
-  if (isNaN(tvId)) notFound();
-
-  const tvData = await getTvDetail(tvId);
-  const embedUrl = `https://vidnest.fun/tv/${tvId}/${season}/${episode}`;
+export default function TvPlayerPage() {
+  const { id } = useParams<{ id: string }>();
+  const searchParams = useSearchParams();
+  const season = parseInt(searchParams.get('season') || '1', 10);
+  const episode = parseInt(searchParams.get('episode') || '1', 10);
+  const [active, setActive] = useState(0);
+  const embedUrl = SOURCES[active].url(id, season, episode);
 
   return (
     <div className="player-wrap">
-      <a href={`/tv/${tvId}`} className="player-back">
-        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z" /></svg>
+      <a href={`/tv/${id}`} className="player-back">
+        <svg viewBox="0 0 24 24" fill="currentColor">
+          <path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z" />
+        </svg>
         Back
       </a>
 
+      <div className="source-tabs">
+        {SOURCES.map((s, i) => (
+          <button
+            key={s.label}
+            className={`source-tab${active === i ? ' active' : ''}`}
+            onClick={() => setActive(i)}
+          >
+            {s.label}
+          </button>
+        ))}
+      </div>
+
       <iframe
+        key={embedUrl}
         className="embed-player"
         src={embedUrl}
-        title={`${tvData.name || tvData.title || "Embedded player"} - S${season}E${episode}`}
         allow="autoplay; encrypted-media; fullscreen; picture-in-picture"
         allowFullScreen
       />
-
-      <div style={{ marginTop: 16, color: "#aaa", fontSize: 14 }}>
-        <h2 style={{ color: "#fff", marginBottom: 8 }}>{tvData.name || tvData.title}</h2>
-        <p>Season {season}, Episode {episode}</p>
-        <p>{tvData.overview}</p>
-        <div style={{ marginTop: 12, fontSize: 12, color: "#888", fontFamily: "monospace", wordBreak: "break-all" }}>
-          Embed: {embedUrl}
-        </div>
-      </div>
     </div>
   );
 }
