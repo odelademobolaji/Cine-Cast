@@ -1,7 +1,6 @@
 * { box-sizing: border-box; margin: 0; padding: 0; }
 html, body {
-  background: #0a0a0a;
-  color: #fff;
+  background: #0a0a0a; color: #fff;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   min-height: 100vh;
 }
@@ -75,20 +74,7 @@ a { color: inherit; text-decoration: none; }
 }
 .btn.primary { background: #fff; color: #000; border-color: #fff; }
 
-.player-wrap { position: relative; width: 100%; aspect-ratio: 16/9; background: #000; border-radius: 8px; overflow: hidden; margin-bottom: 16px; }
-.player-wrap video { width: 100%; height: 100%; }
-.player-overlay { position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: flex-end; padding: 20px; background: linear-gradient(to top, rgba(0,0,0,0.8), transparent 50%); opacity: 1; transition: opacity 0.2s; pointer-events: none; }
-.player-wrap.playing:not(:hover) .player-overlay { opacity: 0; }
-.player-overlay > * { pointer-events: auto; }
-.progress { width: 100%; height: 5px; background: rgba(255,255,255,0.25); border-radius: 3px; cursor: pointer; margin-bottom: 12px; }
-.progress-fill { height: 100%; background: #e50914; border-radius: 3px; width: 0; }
-.player-controls { display: flex; align-items: center; gap: 16px; color: #fff; }
-.ctrl-btn { background: transparent; border: none; color: #fff; cursor: pointer; font-size: 20px; padding: 4px; }
-.player-time { font-size: 13px; font-variant-numeric: tabular-nums; }
-.spacer { flex: 1; }
-.player-error { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; background: rgba(0,0,0,0.9); color: #fff; text-align: center; padding: 20px; }
-
-/* ---- Video player (plain CSS; project does not use Tailwind) ---- */
+/* ---- Video player ---- */
 .player-wrap { max-width: 1100px; margin: 0 auto; padding: 24px 16px; }
 .player-back {
   display: inline-flex; align-items: center; gap: 8px;
@@ -100,6 +86,7 @@ a { color: inherit; text-decoration: none; }
 .vp-container {
   position: relative; width: 100%; background: #000;
   border-radius: 10px; overflow: hidden;
+  cursor: pointer;
 }
 .vp-video { width: 100%; aspect-ratio: 16 / 9; display: block; cursor: pointer; background: #000; }
 
@@ -115,7 +102,7 @@ a { color: inherit; text-decoration: none; }
 }
 @keyframes vp-spin { to { transform: rotate(360deg); } }
 
-.vp-error { flex-direction: column; background: rgba(0,0,0,0.8); color: #fff; padding: 24px; text-align: center; }
+.vp-error { flex-direction: column; background: rgba(0,0,0,0.85); color: #fff; padding: 24px; text-align: center; }
 .vp-error h3 { font-size: 18px; font-weight: 600; margin-bottom: 6px; }
 .vp-error p { font-size: 13px; color: #aaa; }
 .vp-error button {
@@ -127,15 +114,15 @@ a { color: inherit; text-decoration: none; }
 .vp-controls {
   position: absolute; left: 0; right: 0; bottom: 0;
   padding: 14px 16px;
-  background: linear-gradient(to top, rgba(0,0,0,0.85), transparent);
-  transition: opacity 0.2s;
+  background: linear-gradient(to top, rgba(0,0,0,0.9), transparent);
+  transition: opacity 0.3s ease;
 }
 .vp-title { font-size: 13px; font-weight: 500; margin-bottom: 8px; color: #fff; }
 .vp-seek { width: 100%; height: 4px; cursor: pointer; margin-bottom: 10px; accent-color: #e50914; }
 .vp-row { display: flex; align-items: center; gap: 14px; }
-.vp-row button { background: none; border: none; color: #fff; cursor: pointer; display: inline-flex; padding: 0; }
+.vp-row button { background: none; border: none; color: #fff; cursor: pointer; display: inline-flex; padding: 0; transition: color 0.15s; }
 .vp-row button:hover { color: #e50914; }
 .vp-row button svg { width: 22px; height: 22px; }
 .vp-volume { width: 80px; height: 4px; cursor: pointer; accent-color: #e50914; }
-.vp-time { font-size: 12px; color: #fff; }
+.vp-time { font-size: 12px; color: #fff; font-variant-numeric: tabular-nums; }
 .vp-spacer { flex: 1; }

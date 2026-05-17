@@ -1,11 +1,5 @@
 /**
- * Home page — Server Component.
- *
- * No 'use client' here. This file runs ONLY on the server.
- * Async, so it can fetch data directly. Each <Suspense> wraps an
- * async child that streams independently — slow rows don't block fast ones.
- *
- * This is the streaming SSR pattern from PDF section 1.2.
+ * Home page — Server Component with Streaming SSR + Suspense.
  */
 import { Suspense } from 'react';
 import { HeroSection } from '@/components/HeroSection';
@@ -18,15 +12,15 @@ export default function HomePage() {
       <Suspense fallback={<HeroSkeleton />}>
         <HeroSection />
       </Suspense>
-
-      <Suspense fallback={<MovieRowSkeleton title="Trending now" />}>
-        <MovieRow title="Trending now" source="trending" />
+      <Suspense fallback={<MovieRowSkeleton title="Trending" />}>
+        <MovieRow title="Trending" source="trending" />
       </Suspense>
-
-      <Suspense fallback={<MovieRowSkeleton title="Top rated" />}>
-        <MovieRow title="Top rated" source="topRated" />
+      <Suspense fallback={<MovieRowSkeleton title="Top Rated" />}>
+        <MovieRow title="Top Rated" source="topRated" />
       </Suspense>
-
+      <Suspense fallback={<MovieRowSkeleton title="Popular Movies" />}>
+        <MovieRow title="Popular Movies" source="popularMovies" />
+      </Suspense>
       <Suspense fallback={<MovieRowSkeleton title="Popular TV" />}>
         <MovieRow title="Popular TV" source="popularTV" mediaType="tv" />
       </Suspense>
@@ -35,5 +29,5 @@ export default function HomePage() {
 }
 
 function HeroSkeleton() {
-  return <div className="hero" style={{ minHeight: 360, opacity: 0.3 }} />;
+  return <div className="hero" style={{ background: '#1a1a1a' }} />;
 }
