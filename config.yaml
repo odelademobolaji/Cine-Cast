@@ -1,0 +1,56 @@
+# ============================================================
+# CineCast configuration
+# Edit this file to change TMDB credentials and video sources.
+# Backend auto-reloads on save (when running uvicorn --reload).
+# ============================================================
+
+tmdb:
+  # Get a free key at https://www.themoviedb.org/settings/api
+  api_key: "8265bd1679663a7ea12ac168da84d2e8"
+  base_url: "https://api.themoviedb.org/3"
+  image_base: "https://image.tmdb.org/t/p"
+
+# ------------------------------------------------------------
+# Video source configuration
+# ------------------------------------------------------------
+# `default` is used for any movie that doesn't have a specific override.
+# `overrides` maps TMDB movie ID -> stream URL.
+# `fallback_pool` is cycled deterministically by movie ID so the same
+# movie always gets the same video.
+# ------------------------------------------------------------
+streams:
+  default: "https://test-videos.co.uk/vids/bigbuckbunny/mp4/h264/720/Big_Buck_Bunny_720_10s_30MB.mp4"
+
+  overrides:
+
+  fallback_pool:
+    - "https://test-videos.co.uk/vids/bigbuckbunny/mp4/h264/720/Big_Buck_Bunny_720_10s_30MB.mp4"
+    - "https://test-videos.co.uk/vids/sintel/mp4/h264/720/Sintel_720_10s_30MB.mp4"
+    - "https://test-videos.co.uk/vids/jellyfish/mp4/h264/720/Jellyfish_720_10s_30MB.mp4"
+    - "https://download.blender.org/peach/bigbuckbunny_movies/BigBuckBunny_320x180.mp4"
+    - "https://test-videos.co.uk/vids/bigbuckbunny/mp4/h264/360/Big_Buck_Bunny_360_10s_10MB.mp4"
+    - "https://download.blender.org/durian/trailer/sintel_trailer-720p.mp4"
+
+# ------------------------------------------------------------
+# Signed URL settings (mirrors PDF section 4.2)
+# ------------------------------------------------------------
+signing:
+  # Stream URL TTL — how long an issued link stays valid
+  expiry_seconds: 7200  # 2 hours
+
+  # Bind issued URLs to the requester's IP (set false for dev)
+  bind_to_ip: false
+
+  # HMAC secret for signing — replace in production
+  # Generate with: python -c "import secrets; print(secrets.token_hex(32))"
+  secret: "dev-secret-replace-me-in-production-please"
+
+# ------------------------------------------------------------
+# Server
+# ------------------------------------------------------------
+server:
+  host: "0.0.0.0"
+  port: 8000
+  cors_origins:
+    - "http://localhost:3000"
+    - "http://127.0.0.1:3000"

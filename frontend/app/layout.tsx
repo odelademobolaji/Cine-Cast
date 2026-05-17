@@ -1,0 +1,32 @@
+/**
+ * Root layout — this is the server-rendered shell.
+ * Renders ONCE per session; child route segments swap inside {children}.
+ * Zero JavaScript shipped from this file.
+ */
+import Link from 'next/link';
+import './globals.css';
+
+export const metadata = {
+  title: 'CineCast',
+  description: 'Next.js streaming architecture demo',
+};
+
+export default function RootLayout({ children }: { children: React.ReactNode }) {
+  return (
+    <html lang="en">
+      <body>
+        <nav className="nav">
+          <Link href="/" className="logo">
+            Cine<span className="dot">.</span>cast
+          </Link>
+          <div className="nav-links">
+            <Link href="/">Home</Link>
+            <Link href="/?type=movie">Movies</Link>
+            <Link href="/?type=tv">TV</Link>
+          </div>
+        </nav>
+        <main className="main">{children}</main>
+      </body>
+    </html>
+  );
+}
